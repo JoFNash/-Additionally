@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Char_counter
+{
+     char charakter;
+     int count;
+} char_counter;
+
+int main ()
+{
+    int i, j;
+    char * str;
+    int struct_counter = 0; /*сколько букв в словаре (или количество структур)*/
+    char_counter *res = NULL;
+    struct_counter = 0;
+
+    printf("Enter string: ");
+    scanf("%s", str); /*считали строку*/
+
+    for (i = 0; i < strlen(str); i++){
+        int flag = 0;
+        for (j = 0; j < struct_counter; j++)
+        {
+            if (str[i] == res[j].charakter)
+            {
+                res[j].count += 1;
+                flag = 1;
+            }
+        }
+        if (flag == 0)
+        {
+            res = realloc(res, (++struct_counter) * sizeof(char_counter));
+            res[struct_counter - 1].charakter  = str[i];
+            res[struct_counter - 1].count = 1;
+        }
+    }
+
+    for (i = 0; i < struct_counter; i++)
+    {
+        printf("%c: %d occurences\n", res[i].charakter, res[i].count);
+    }
+    free(res);
+    return 0;
+}
